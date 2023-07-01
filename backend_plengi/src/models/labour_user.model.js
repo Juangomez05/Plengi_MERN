@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const labour_user_Schema = new mongoose.Schema(
   {
-    mano_obra: {
+    name: {
       type: String,
       required: true,
     },

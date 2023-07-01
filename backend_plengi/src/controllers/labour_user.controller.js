@@ -14,10 +14,10 @@ export const getLabours = async (req, res) => {
 //create
 export const createLabour = async (req, res) => {
   try {
-    const { mano_obra, unidad, val_unitario } = req.body;
+    const { name, unidad, val_unitario } = req.body;
     const cantidadNumerica = parseFloat(val_unitario);
     const newLabour = new Labour({
-        mano_obra,
+        name,
         unidad,
         val_unitario: val_unitario,
         user: req.user.id,
@@ -45,11 +45,11 @@ export const deleteLabour = async (req, res) => {
 //update
 export const updateLabour = async (req, res) => {
   try {
-    const { mano_obra, unidad, val_unitario } = req.body;
+    const { name, unidad, val_unitario } = req.body;
     const cantidadNumerica = parseFloat(val_unitario);
     const LabourUpdated = await Labour.findOneAndUpdate(
       { _id: req.params.id },
-      { mano_obra, unidad, val_unitario: cantidadNumerica },
+      { name, unidad, val_unitario: cantidadNumerica },
       { new: true }
     );
     return res.json(LabourUpdated);

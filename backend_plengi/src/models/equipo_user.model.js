@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const equipo_user_Schema = new mongoose.Schema(
   {
-    equipo: {
+    name: {
       type: String,
       required: true,
     },

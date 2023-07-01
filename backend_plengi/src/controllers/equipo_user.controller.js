@@ -14,10 +14,10 @@ export const getEquipos = async (req, res) => {
 //create
 export const createEquipo = async (req, res) => {
   try {
-    const { equipo, unidad, val_unitario } = req.body;
+    const { name, unidad, val_unitario } = req.body;
     const cantidadNumerica = parseFloat(val_unitario);
     const newEquipo = new Equipo({
-        equipo,
+        name,
         unidad,
         val_unitario: cantidadNumerica,
         user: req.user.id,
@@ -45,11 +45,11 @@ export const deleteEquipo = async (req, res) => {
 //update
 export const updateEquipo = async (req, res) => {
   try {
-    const { equipo, unidad, val_unitario } = req.body;
+    const { name, unidad, val_unitario } = req.body;
     const cantidadNumerica = parseFloat(val_unitario);
     const EquipoUpdated = await Equipo.findOneAndUpdate(
       { _id: req.params.id },
-      { equipo, unidad, val_unitario: val_unitario },
+      { name, unidad, val_unitario: val_unitario },
       { new: true }
     );
     return res.json(EquipoUpdated);

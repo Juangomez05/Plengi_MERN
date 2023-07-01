@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createLabour_User_Schema = z.object({
-  mano_obra: z.string({
+  name: z.string({
     required_error: "La mano de obra es requerida",
   }),
   unidad: z.string({
