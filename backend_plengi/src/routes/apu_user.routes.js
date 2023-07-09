@@ -2,7 +2,6 @@ import { Router } from "express";
 import { 
     getApus,
     getApu,
-    createApu,
     updateApu,
     deleteApu,
  } from "../controllers/apu_user.controller.js";
@@ -13,9 +12,6 @@ const router = Router()
 
 //obtener todos
 router.get("/apu", auth, getApus);
-
-//create
-router.post("/apu", auth, createApu);
 
 //obtner uno 
 router.get("/apu/:id", auth, getApu);

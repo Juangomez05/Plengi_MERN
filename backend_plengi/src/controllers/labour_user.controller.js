@@ -1,5 +1,5 @@
 import Labour from "../models/labour_user.model.js";
-import APU from "../models/apu.model.js";
+import APU from "../models/apu_user.model.js";
 
 //obtener todos
 export const getLabours = async (req, res) => {

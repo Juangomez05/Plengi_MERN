@@ -27,6 +27,7 @@ import LabourFormPage from "./pages/LabourFormPage";
 import LabourPage from "./pages/LabourPage";
 import { LabourProvider } from "./context/Labour_user_context";
 
+import ApuPage from "./pages/ApuPage";
 import ApuSearch from "./pages/ApuSearch";
 import ApuFormPage from "./pages/ApuFormPage";
 import ApuPagePrueba from "./pages/ApuPagePrueba";
@@ -87,6 +88,7 @@ function App() {
                             <Route path='/labour/:id' element={<LabourFormPage />} />
 
                             {/* Apu usuario */}
+                            <Route path='/apu' element={<ApuPage />} />
                             <Route path='/apuselect' element={<ApuSelectPage />} />
                             <Route path='/apusearch' element={<ApuSearch />} />
                             <Route path='/apuprueba' element={<ApuPagePrueba />} />

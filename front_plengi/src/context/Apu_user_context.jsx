@@ -3,8 +3,6 @@ import { createContext, useContext, useState } from "react";
 import { 
     getApusRequest,
     getApuRequest,
-    createApuRequest,
-    deleteApuRequest,
     updateApuRequest,
 
  } from "../api/apu_user";
@@ -36,26 +34,6 @@ export function ApuProvider({ children }){
         }
     }
 
-    //create
-    const createApu = async (apu) => {
-        const cantidadNumerica = parseFloat(apu.val_unitario);
-        const newApu = { ...apu, val_unitario: cantidadNumerica };
-    
-        const res = await createApuRequest(newApu);
-        console.log(res);
-      };
-
-    //elimina una tarea
-    const deleteApu = async (id) => {
-        try {
-            const res = await deleteApuRequest(id)
-            if (res.status === 204) setApus(apus.filter(apu => apu._id !== id))
-        } catch (error) {
-            console.log(error);
-        }
-
-    };
-
     //llamar una sola tarea
     const getApu = async (id) => {
         try {
@@ -66,7 +44,7 @@ export function ApuProvider({ children }){
         }
     };
 
-    //actualiza una tarea
+    //actualiza el apu 
     const updateApu = async (id, apu) => {
         try {
             await updateApuRequest(id, apu)
@@ -82,8 +60,6 @@ export function ApuProvider({ children }){
                 apus,
                 getApus,
                 getApu,
-                createApu,
-                deleteApu,
                 updateApu,
             }}
         >

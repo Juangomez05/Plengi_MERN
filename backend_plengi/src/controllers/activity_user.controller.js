@@ -1,5 +1,5 @@
 import Activity from "../models/activity_user.model.js";
-import APU from "../models/apu.model.js";
+import APU from "../models/apu_user.model.js";
 
 //obtener todos
 export const getActivitys = async (req, res) => {
@@ -30,10 +30,8 @@ export const createActivity = async (req, res) => {
 
     const newAPU = new APU({
       actividad: saveActivity._id,
-      name:saveActivity.actividad,
-      material: [],
-      labour: [],
-      equipo: [],
+      name_apu:saveActivity.actividad,
+      user: req.user.id,
       
     })
 
@@ -65,12 +63,23 @@ export const updateActivity = async (req, res) => {
   try {
     const { actividad, unidad, cantidad } = req.body;
     const cantidadNumerica = parseFloat(cantidad);
+    
     const activityUpdated = await Activity.findOneAndUpdate(
       { _id: req.params.id },
       { actividad, unidad, cantidad : cantidadNumerica },
       { new: true }
     );
-    return res.json(activityUpdated);
+
+    //actualizamos solo el nombre del APU
+
+    const updateAPU = await APU.findOneAndUpdate(
+      { user: req.user.id },
+      { name_apu: actividad },
+      { new: true }
+    );
+
+    res.json(activityUpdated)
+
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

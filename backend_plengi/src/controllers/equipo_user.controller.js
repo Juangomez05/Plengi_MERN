@@ -1,5 +1,5 @@
 import Equipo from "../models/equipo_user.model.js";
-import APU from "../models/apu.model.js";
+import APU from "../models/apu_user.model.js";
 
 //obtener todos
 export const getEquipos = async (req, res) => {
@@ -20,9 +20,18 @@ export const createEquipo = async (req, res) => {
         name,
         unidad,
         val_unitario: cantidadNumerica,
-        user: req.user.id,
+        user: req.user.id, 
     });
-    await newEquipo.save();
+    const saveEquipo = await newEquipo.save();
+
+    //enviamos solo el id del equipo creado 
+
+    const newAPU = new APU({
+      equipo: saveEquipo._id
+    })
+
+    await newAPU.save()
+
     res.json(newEquipo);
   } catch (error) {
     return res.status(500).json({ message: error.message });

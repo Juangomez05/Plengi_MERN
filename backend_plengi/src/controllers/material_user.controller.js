@@ -1,5 +1,5 @@
 import Material from "../models/material_user.model.js";
-import APU from "../models/apu.model.js";
+import APU from "../models/apu_user.model.js";
 
 //obtener todos
 export const getMaterials = async (req, res) => {

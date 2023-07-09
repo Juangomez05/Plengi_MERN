@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const apuUserSchema = new mongoose.Schema({
-  name: {
+  name_apu: {
     type: String,
     required: true,
   },
@@ -10,14 +10,18 @@ const apuUserSchema = new mongoose.Schema({
     ref: 'Activity_user',
     required: true,
   },
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
   material: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Material_user',
+    ref: 'Material_BD',
     required: true,
   }],
   labour: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Labour_user',
+    ref: 'Labour_BD',
     required: true,
   }],
   equipo: [{

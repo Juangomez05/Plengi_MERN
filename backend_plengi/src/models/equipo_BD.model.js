@@ -14,6 +14,14 @@ const equipo_BD_Schema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+    Apu_user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Apu_User'
+    },
   },
   {
     timestamps: true,

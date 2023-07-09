@@ -20,7 +20,7 @@ const material_user_Schema = new mongoose.Schema(
     },
     Apu_user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Apu_user'
+      ref: 'APU_User'
     },
   },
   {

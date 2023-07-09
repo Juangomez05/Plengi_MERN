@@ -1,71 +1,41 @@
-import { useForm } from "react-hook-form";
-import { useApu } from "../context/Apu_user_context";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useBD } from "../context/BDContext";
 
 function ApuFormPage() {
-
-  const { register, handleSubmit, setValue } = useForm()
-  const { createApu, getApu, updateApu } = useApu()
-  const navigate = useNavigate()
-  const params = useParams()
+  const { materials, getMaterials_BD } = useBD();
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
 
   useEffect(() => {
-    async function loadApu() {
-      if (params.id) {
-        const apu = await getApu(params.id)
-        setValue('apu', apu.apu)
-        setValue('unidad', apu.unidad)
-        setValue('val_unitario', apu.val_unitario)
-      }
-    }
-    loadApu()
-  }, [])
+    getMaterials_BD();
+  }, []);
 
-  const onSubmit = handleSubmit((data) => {
-    if (params.id) {
-      updateApu(params.id, data);
-    } else {
-      createApu(data);
+  const handleSelectChange = (e) => {
+    const selectedMaterialId = e.target.value;
+    const material = materials.find((m) => m._id === selectedMaterialId);
+    setSelectedMaterial(material);
+  };
+
+  const handleSubmit = () => {
+    if (selectedMaterial) {
+      console.log(selectedMaterial);
     }
-    navigate('/apu')
-  })
+  };
 
   return (
-    <div className='flex h-[calc(100vh-100px)] items-center justify-center'>
-      <div className='bg-zinc-800 max-w-md w-full p-10 rounded-md'>
-
-        <label htmlFor="apu">Apu</label>
-
-        <form onSubmit={onSubmit}>
-          <input
-            type="text" placeholder="Apu"
-            {...register("apu")}
-            className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-            autoFocus
-          />
-
-          <label htmlFor="unidad">Unidad</label>
-
-          <input type="text" placeholder="Unidad"
-            {...register("unidad")}
-            className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-          ></input>
-
-          <label htmlFor="val_unitario">Valor unitario</label>
-          <input
-            type="number"
-            placeholder="Valor unitario"
-            {...register("val_unitario")}
-            className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-          />
-
-          <button className='bg-indigo-500 px-3 py-2 rounded-md'>Guardar</button>
-        </form>
-
-      </div>
+    <div>
+      <h1>ApuFormPage</h1>
+      <label htmlFor="materialSelect">Selecciona un material:</label>
+      <select className="text-black" id="materialSelect" onChange={handleSelectChange}>
+        <option value="">Selecciona un material</option>
+        {materials.map((material) => (
+          <option key={material._id} value={material._id}>
+            {material.name}
+          </option>
+        ))}
+      </select>
+      <button onClick={handleSubmit}>Agregar material</button>
     </div>
-  )
+  );
 }
 
-export default ApuFormPage
+export default ApuFormPage;

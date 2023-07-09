@@ -11,7 +11,7 @@ function ApuSelectPage() {
     labours,
     getMaterials_BD,
     getEquipos_BD,
-    getLabours_BD
+    getLabours_BD,
 
   } = useBD();
 
@@ -94,6 +94,7 @@ function ApuSelectPage() {
       }
     }
   };
+
   return (
 
     //material 

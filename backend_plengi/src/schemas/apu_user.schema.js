@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createEquipo_User_Schema = z.object({
+export const createApu_User_Schema = z.object({
   equipo: z.string({
     required_error: "El equipo es requerido",
   }),

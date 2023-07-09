@@ -1,31 +1,10 @@
-import APU_User from '../models/apu.model.js';
+import APU_User from '../models/apu_user.model.js';
 
 // Obtener todos los APUs del usuario
 export const getApus = async (req, res) => {
   try {
-    const apus = await APU_User.find({}).populate('actividad material labour equipo');
+    const apus = await APU_User.find({ user: req.user.id }).populate("user")
     res.json(apus);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Crear un nuevo APU para el usuario
-export const createApu = async (req, res) => {
-  try {
-    const { actividad, materiales, manoDeObra, equipo } = req.body;
-
-    const newApu = new APU_User({
-      actividad,
-      name: actividad.actividad,
-      material: materiales,
-      labour: manoDeObra,
-      equipo,
-    });
-
-    await newApu.save();
-
-    res.status(201).json(newApu);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -34,40 +13,26 @@ export const createApu = async (req, res) => {
 // Obtener un APU específico del usuario
 export const getApu = async (req, res) => {
   try {
-    const apu = await APU_User.findById(req.params.id)
-      .populate('actividad material labour equipo');
-
-    if (!apu) {
-      return res.status(404).json({ message: 'APU not found' });
-    }
-
-    res.json(apu);
+    const apu = await APU_User.findById(req.params.id).populate('user');
+    if (!apu) return res.status(404).json({ message: 'APU not found' });
+    return res.json(apu);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(404).json({ message: "Apu not found" });
   }
 };
 
 // Actualizar un APU específico del usuario
 export const updateApu = async (req, res) => {
   try {
-    const { actividad, materiales, manoDeObra, equipo } = req.body;
+    const { material, labour, equipo } = req.body;
 
-    const updatedApu = await APU_User.findByIdAndUpdate(
-      req.params.id,
-      {
-        actividad,
-        material: materiales,
-        labour: manoDeObra,
-        equipo,
-      },
+    const updatedApu = await APU_User.findOneAndUpdate(
+      {_id: req.params.id},
+      { material, labour, equipo },
       { new: true }
-    ).populate('actividad material labour equipo');
+    )
 
-    if (!updatedApu) {
-      return res.status(404).json({ message: 'APU not found' });
-    }
-
-    res.json(updatedApu);
+   return res.json(updatedApu);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

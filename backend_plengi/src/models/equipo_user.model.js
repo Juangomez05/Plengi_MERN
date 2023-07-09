@@ -20,7 +20,7 @@ const equipo_user_Schema = new mongoose.Schema(
     },
     Apu_user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Apu_user'
+      ref: 'Apu_User'
     },
   },
   {
