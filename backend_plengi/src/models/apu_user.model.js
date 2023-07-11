@@ -14,20 +14,17 @@ const apuUserSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
-  material: [{
+  materiales_id: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Material_BD',
-    required: true,
   }],
-  labour: [{
+  labours_id: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Labour_BD',
-    required: true,
   }],
-  equipo: [{
+  equipos_id: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Equipo_user',
-    required: true,
   }],
 });
 

@@ -3,7 +3,7 @@ import APU_User from '../models/apu_user.model.js';
 // Obtener todos los APUs del usuario
 export const getApus = async (req, res) => {
   try {
-    const apus = await APU_User.find({ user: req.user.id }).populate("user")
+    const apus = await APU_User.find({ user: req.user.id })
     res.json(apus);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,7 +13,7 @@ export const getApus = async (req, res) => {
 // Obtener un APU específico del usuario
 export const getApu = async (req, res) => {
   try {
-    const apu = await APU_User.findById(req.params.id).populate('user');
+    const apu = await APU_User.findById(req.params.id)
     if (!apu) return res.status(404).json({ message: 'APU not found' });
     return res.json(apu);
   } catch (error) {
@@ -24,15 +24,17 @@ export const getApu = async (req, res) => {
 // Actualizar un APU específico del usuario
 export const updateApu = async (req, res) => {
   try {
-    const { material, labour, equipo } = req.body;
-
+    
+    const { materiales_id, labours_id, equipos_id } = req.body;
+    
+    console.log(materiales_id);
     const updatedApu = await APU_User.findOneAndUpdate(
-      {_id: req.params.id},
-      { material, labour, equipo },
+      { _id: req.params.id },
+      { materiales_id, labours_id, equipos_id },
       { new: true }
-    )
+    );
 
-   return res.json(updatedApu);
+    return res.json(updatedApu);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

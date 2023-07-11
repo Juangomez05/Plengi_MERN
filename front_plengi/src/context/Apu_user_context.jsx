@@ -51,7 +51,6 @@ export function ApuProvider({ children }){
         } catch (error) {
             console.log(error);
         }
-
     };
       
     return(
