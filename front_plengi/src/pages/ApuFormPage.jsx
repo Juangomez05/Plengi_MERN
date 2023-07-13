@@ -5,17 +5,21 @@ import { useApu } from "../context/Apu_user_context";
 import { useParams, useNavigate } from "react-router-dom";
 
 function ApuFormPage() {
-  const { 
-    materials, 
+  const {
+    materials,
     getMaterials_BD,
     equipos,
     getEquipos_BD,
     labours,
     getLabours_BD
   } = useBD();
-  const { getApu, updateApu } = useApu();
 
-  const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const { getApus, getApu, updateApu } = useApu();
+
+  const [selectedMaterial, setSelectedMaterial] = useState([]);
+  const [dataMaterial, setDataMaterial] = useState([])
+  const [dataEquipo, setDataEquipo] = useState([])
+  const [dataLabour, setDataLabour] = useState([])
   const [selectedEquipo, setSelectedEquipo] = useState(null)
   const [selectedLabour, setSelectedLabour] = useState(null)
   const [apuData, setApuData] = useState(null);
@@ -28,6 +32,7 @@ function ApuFormPage() {
     getMaterials_BD();
     getEquipos_BD();
     getLabours_BD();
+    getApus();
 
     if (params.id) {
       loadApu();
@@ -56,7 +61,7 @@ function ApuFormPage() {
   const handleSelectChangeEquipo = (e) => {
     const selectedEquipoId = e.target.value
     const equipo = equipos.find((m) => m._id === selectedEquipoId)
-    setSelectedEquipo(equipo) 
+    setSelectedEquipo(equipo)
   }
 
   const handleSelectChangeLabour = (e) => {
@@ -71,8 +76,12 @@ function ApuFormPage() {
         if (!apuData.materiales_id.includes(selectedMaterial._id)) {
           apuData.materiales_id.push(selectedMaterial._id)
         }
-        const actuliazado = await updateApu(params.id, apuData);
-        console.log(apuData.materiales_id);
+        await updateApu(params.id, apuData);
+
+        setSelectedMaterial(selectedMaterial);
+        setDataMaterial([...dataMaterial, selectedMaterial]);
+
+        console.log(apuData);
       } else {
         console.log("No tiene params");
       }
@@ -87,8 +96,12 @@ function ApuFormPage() {
         if (!apuData.equipos_id.includes(selectedEquipo._id)) {
           apuData.equipos_id.push(selectedEquipo._id)
         }
-        const actuliazado = await updateApu(params.id, apuData)
-        console.log(actuliazado);
+        await updateApu(params.id, apuData)
+
+        setSelectedEquipo(selectedEquipo)
+        setDataEquipo([...dataEquipo, selectedEquipo])
+
+        console.log(apuData);
       }
     } catch (error) {
       console.log(error);
@@ -97,12 +110,16 @@ function ApuFormPage() {
 
   const handleSubmitLabour = async () => {
     try {
-      if(params.id){
+      if (params.id) {
         if (!apuData.labours_id.includes(selectedLabour._id)) {
           apuData.labours_id.push(selectedLabour._id)
         }
-        const actuliazado = await updateApu(params.id, apuData)
-        console.log(actuliazado);
+        await updateApu(params.id, apuData)
+
+        setSelectedLabour(selectedLabour)
+        setDataLabour([...dataLabour, selectedLabour])
+
+        console.log(apuData);
       }
     } catch (error) {
       console.log(error);
@@ -113,8 +130,31 @@ function ApuFormPage() {
   return (
     <div>
 
-      {/* MATERIALES */}
       <h1>Apu {nameApu}</h1>
+
+      {/* MATERIALES */}
+
+      <table>
+        <thead>
+          <tr>
+            <th>Material</th>
+            <th>Unidad</th>
+            <th>Valor Unitario</th>
+            <th>Cantidad</th>
+            <th>Desperdicio</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dataMaterial.map((material) => (
+            <tr key={material._id}>
+              <td>{material.name}</td>
+              <td>{material.unidad}</td>
+              <td>{material.val_unitario}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <label htmlFor="materialSelect">Selecciona un material:</label>
       <select
         className="text-black"
@@ -133,6 +173,26 @@ function ApuFormPage() {
       </button>
 
       {/* EQUIPOS */}
+
+      <table>
+        <thead>
+          <tr>
+            <th>Equipo</th>
+            <th>Unidad</th>
+            <th>Valor Unitario</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dataEquipo.map((equipo) => (
+            <tr key={equipo._id}>
+              <td>{equipo.name}</td>
+              <td>{equipo.unidad}</td>
+              <td>{equipo.val_unitario}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <label className="px-4 py-2" htmlFor="equipoSelect">Selecciona un equipo:</label>
       <select
         className="text-black"
@@ -151,6 +211,26 @@ function ApuFormPage() {
       </button>
 
       {/* MANO DE OBRA */}
+
+      <table>
+        <thead>
+          <tr>
+            <th>Mano de obra</th>
+            <th>Unidad</th>
+            <th>Valor Unitario</th>
+          </tr>
+        </thead>
+        <tbody>
+          {dataLabour.map((labour) => (
+            <tr key={labour._id}>
+              <td>{labour.name}</td>
+              <td>{labour.unidad}</td>
+              <td>{labour.val_unitario}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <label className="px-4 py-2" htmlFor="labourSelect">Selecciona la mano de obra:</label>
       <select
         className="text-black"
@@ -167,9 +247,9 @@ function ApuFormPage() {
       <button onClick={handleSubmitLabour}>
         Agregar Mano de obra
       </button>
-
     </div>
   );
+
 }
 
 export default ApuFormPage;
